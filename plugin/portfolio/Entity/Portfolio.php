@@ -1,20 +1,32 @@
 <?php
 
-namespace Icap\PortfolioBundle\Entity;
+/*
+ * This file is part of the Claroline Connect package.
+ *
+ * (c) Claroline Consortium <consortium@claroline.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace Claroline\PortfolioBundle\Entity;
+
+use Claroline\AppBundle\Entity\Identifier\Uuid;
+use Claroline\CoreBundle\Entity\Group;
+use Claroline\CoreBundle\Entity\Tab\HomeTab;
 use Claroline\CoreBundle\Entity\User;
+use Claroline\TeamBundle\Entity\Team;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="icap__portfolio")
- * @ORM\Entity(repositoryClass="Icap\PortfolioBundle\Repository\PortfolioRepository")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @ORM\Entity
+ * @ORM\Table(name="claro_portfolio")
  */
 class Portfolio
 {
+    use Uuid;
+
     const VISIBILITY_NOBODY = 0;
     const VISIBILITY_NOBODY_LABEL = 'visibile_to_me';
     const VISIBILITY_USER = 1;
@@ -24,102 +36,84 @@ class Portfolio
     const VISIBILITY_EVERYBODY = 3;
     const VISIBILITY_EVERYBODY_LABEL = 'visible_for_everybody';
 
+    const TAB_TYPE_PORTFOLIO = 'portfolio';
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=128, nullable=false)
-     * @Assert\Length(max = "128")
      */
     protected $title;
 
     /**
-     * @var string
-     *
-     * @Gedmo\Slug(fields={"title"}, updatable=false)
      * @ORM\Column(type="string", length=128, unique=true, nullable=true)
      */
     protected $slug;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="integer", name="visibility", nullable=false)
      */
     protected $visibility = self::VISIBILITY_NOBODY;
 
     /**
-     * @var \Claroline\CoreBundle\Entity\User
-     *
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="owner_id", nullable=false)
      */
-    protected $user;
+    protected $owner;
 
     /**
-     * @ORM\OneToMany(targetEntity="PortfolioUser", mappedBy="portfolio", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Claroline\CoreBundle\Entity\Tab\HomeTab")
+     * @ORM\JoinTable(name="claro_portfolio_tabs")
      */
-    protected $portfolioUsers;
+    private $tabs;
 
     /**
-     * @ORM\OneToMany(targetEntity="PortfolioGuide", mappedBy="portfolio", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Claroline\CoreBundle\Entity\User")
+     * @ORM\JoinTable(name="claro_portfolio_users")
      */
-    protected $portfolioGuides;
+    private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="PortfolioGroup", mappedBy="portfolio", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Claroline\CoreBundle\Entity\Group")
+     * @ORM\JoinTable(name="claro_portfolio_groups")
      */
-    protected $portfolioGroups;
+    private $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="PortfolioTeam", mappedBy="portfolio", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Claroline\TeamBundle\Entity\Team")
+     * @ORM\JoinTable(name="claro_portfolio_teams")
      */
-    protected $portfolioTeams;
+    private $teams;
 
     /**
-     * @var \Icap\PortfolioBundle\Entity\PortfolioWidget[]
-     *
-     * @ORM\OneToMany(targetEntity="Icap\PortfolioBundle\Entity\PortfolioWidget", mappedBy="portfolio", cascade={"persist"})
-     */
-    protected $portfolioWidgets;
-
-    /**
-     * @var \Icap\PortfolioBundle\Entity\PortfolioComment[]
-     *
-     * @ORM\OneToMany(targetEntity="Icap\PortfolioBundle\Entity\PortfolioComment", mappedBy="portfolio", cascade={"persist"})
+     * @ORM\OneToMany(
+     *     targetEntity="Claroline\PortfolioBundle\Entity\PortfolioComment",
+     *     mappedBy="portfolio",
+     *     cascade={"persist"}
+     * )
      */
     protected $comments;
 
-    /**
-     * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
-     */
-    protected $deletedAt;
-
-    /**
-     * @ORM\Column(name="comments_view_at", type="datetime")
-     */
-    protected $commentsViewAt;
-
     public function __construct()
     {
-        $this->commentsViewAt = new \DateTime();
-        $this->portfolioWidgets = new ArrayCollection();
+        $this->refreshUuid();
+        $this->tabs = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->teams = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Portfolio
-     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function setId($id)
     {
         $this->id = $id;
@@ -127,27 +121,11 @@ class Portfolio
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
     public function getTitle()
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return Portfolio
-     */
     public function setTitle($title)
     {
         $this->title = $title;
@@ -155,19 +133,11 @@ class Portfolio
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug()
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     *
-     * @return Portfolio
-     */
     public function setSlug($slug)
     {
         $this->slug = $slug;
@@ -175,11 +145,11 @@ class Portfolio
         return $this;
     }
 
-    /**
-     * @param bool $visibility
-     *
-     * @return Portfolio
-     */
+    public function getVisibility()
+    {
+        return $this->visibility;
+    }
+
     public function setVisibility($visibility)
     {
         $this->visibility = $visibility;
@@ -187,17 +157,6 @@ class Portfolio
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    /**
-     * @return array
-     */
     public static function getVisibilityLabels()
     {
         return array(
@@ -208,9 +167,6 @@ class Portfolio
         );
     }
 
-    /**
-     * @return mixed
-     */
     public function getVisibilityLabel()
     {
         $visibilityLabels = self::getVisibilityLabels();
@@ -218,262 +174,153 @@ class Portfolio
         return $visibilityLabels[$this->getVisibility()];
     }
 
-    /**
-     * @param PortfolioUser[] $portfolioUsers
-     *
-     * @return Portfolio
-     */
-    public function setPortfolioUsers($portfolioUsers)
+    public function getOwner()
     {
-        foreach ($portfolioUsers as $portfolioUser) {
-            $portfolioUser->setPortfolio($this);
-        }
+        return $this->owner;
+    }
 
-        $this->portfolioUsers = $portfolioUsers;
+    public function setOwner(User $owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getTabs()
+    {
+        return $this->tabs;
+    }
+
+    public function addTab(HomeTab $tab)
+    {
+        if (!$this->tabs->contains($tab)) {
+            $this->tabs->add($tab);
+        }
 
         return $this;
     }
 
-    /**
-     * @return PortfolioUser[]|ArrayCollection
-     */
-    public function getPortfolioUsers()
+    public function removeTab(HomeTab $tab)
     {
-        return $this->portfolioUsers;
-    }
-
-    /**
-     * @return PortfolioGuide[]
-     */
-    public function getPortfolioGuides()
-    {
-        return $this->portfolioGuides;
-    }
-
-    /**
-     * @param PortfolioGuide[] $portfolioGuides
-     *
-     * @return Portfolio
-     */
-    public function setPortfolioGuides($portfolioGuides)
-    {
-        foreach ($portfolioGuides as $portfolioGuide) {
-            $portfolioGuide->setPortfolio($this);
+        if ($this->tabs->contains($tab)) {
+            $this->tabs->removeElement($tab);
         }
-
-        $this->portfolioGuides = $portfolioGuides;
 
         return $this;
     }
 
-    /**
-     * @param mixed $portfolioGroups
-     *
-     * @return Portfolio
-     */
-    public function setPortfolioGroups($portfolioGroups)
+    public function emptyTabs()
     {
-        foreach ($portfolioGroups as $portfolioGroup) {
-            $portfolioGroup->setPortfolio($this);
-        }
+        $this->tabs->clear();
+    }
 
-        $this->portfolioGroups = $portfolioGroups;
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user)
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
 
         return $this;
     }
 
-    /**
-     * @return PortfolioGroup[]|ArrayCollection
-     */
-    public function getPortfolioGroups()
+    public function removeUser(User $user)
     {
-        return $this->portfolioGroups;
-    }
-
-    /**
-     * @param mixed $portfolioTeams
-     *
-     * @return Portfolio
-     */
-    public function setPortfolioTeams($portfolioTeams)
-    {
-        foreach ($portfolioTeams as $portfolioTeam) {
-            $portfolioTeam->setPortfolio($this);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
         }
-
-        $this->portfolioTeams = $portfolioTeams;
 
         return $this;
     }
 
-    /**
-     * @return PortfolioTeam[]|ArrayCollection
-     */
-    public function getPortfolioTeams()
+    public function emptyUsers()
     {
-        return $this->portfolioTeams;
+        $this->users->clear();
     }
 
-    /**
-     * @param \Claroline\CoreBundle\Entity\User $user
-     *
-     * @return Portfolio
-     */
-    public function setUser($user)
+    public function getGroups()
     {
-        $this->user = $user;
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group)
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups->add($group);
+        }
 
         return $this;
     }
 
-    /**
-     * @return \Claroline\CoreBundle\Entity\User
-     */
-    public function getUser()
+    public function removeGroup(Group $group)
     {
-        return $this->user;
-    }
-
-    /**
-     * @param \Icap\PortfolioBundle\Entity\PortfolioWidget[] $portfolioWidgets
-     *
-     * @return Portfolio
-     */
-    public function setPortfolioWidgets($portfolioWidgets)
-    {
-        foreach ($portfolioWidgets as $portfolioWidget) {
-            $portfolioWidget->setPortfolio($this);
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
         }
-
-        $this->portfolioWidgets = $portfolioWidgets;
 
         return $this;
     }
 
-    /**
-     * @return \Icap\PortfolioBundle\Entity\PortfolioWidget[]
-     */
-    public function getPortfolioWidgets()
+    public function emptyGroups()
     {
-        return $this->portfolioWidgets;
+        $this->groups->clear();
     }
 
-    /**
-     * @param string|null $widgetType
-     *
-     * @return \Icap\PortfolioBundle\Entity\Widget\AbstractWidget[]
-     */
-    public function getWidgets($widgetType = null)
+    public function getTeams()
     {
-        $widgets = array();
+        return $this->teams;
+    }
 
-        foreach ($this->getPortfolioWidgets() as $portfolioWidget) {
-            $widget = $portfolioWidget->getWidget();
-            if ($widgetType !== null || $widgetType === $widget->getWidgetType()) {
-                $widgets[] = $widget;
-            }
+    public function addTeam(Team $team)
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
         }
 
-        return $widgets;
+        return $this;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function hasGuide(User $user)
+    public function removeTeam(Team $team)
     {
-        $isGuide = false;
-
-        foreach ($this->getPortfolioGuides() as $portfolioGuide) {
-            if ($user->getId() === $portfolioGuide->getUser()->getId()) {
-                $isGuide = true;
-                break;
-            }
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
         }
 
-        return $isGuide;
+        return $this;
     }
 
-    /**
-     * @return PortfolioComment[]
-     */
+    public function emptyTeams()
+    {
+        $this->teams->clear();
+    }
+
     public function getComments()
     {
         return $this->comments;
     }
 
-    /**
-     * @param PortfolioComment[] $comments
-     *
-     * @return Portfolio
-     */
-    public function setComments($comments)
+    public function addComment(PortfolioComment $comment)
     {
-        foreach ($comments as $comment) {
-            $comment->setPortfolio($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
         }
-
-        $this->comments = $comments;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCommentsViewAt()
+    public function removeComment(PortfolioComment $comment)
     {
-        return $this->commentsViewAt;
-    }
-
-    /**
-     * @param \DateTime $commentsViewAt
-     *
-     * @return Portfolio
-     */
-    public function setCommentsViewAt($commentsViewAt)
-    {
-        $this->commentsViewAt = $commentsViewAt;
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+        }
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getCountUnreadComments(\DateTime $commentsViewAt = null)
+    public function emptyComments()
     {
-        $countUnreadComments = 0;
-
-        if (null === $commentsViewAt) {
-            $commentsViewAt = $this->getCommentsViewAt();
-        }
-
-        foreach ($this->getComments() as $comment) {
-            if ($commentsViewAt < $comment->getSendingDate()) {
-                ++$countUnreadComments;
-            }
-        }
-
-        return $countUnreadComments;
-    }
-
-    /**
-     * @return \Datetime
-     */
-    public function getLastUpdateDate()
-    {
-        $lastUpdateDate = null;
-//        return $lastUpdateDate;
-
-        foreach ($this->getWidgets() as $widget) {
-            if ($lastUpdateDate < $widget->getUpdatedAt()) {
-                $lastUpdateDate = $widget->getUpdatedAt();
-            }
-        }
-
-        return $lastUpdateDate;
+        $this->comments->clear();
     }
 }

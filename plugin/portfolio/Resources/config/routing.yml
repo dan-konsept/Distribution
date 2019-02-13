@@ -1,4 +1,7 @@
-icap_portfolio:
-    resource: "@IcapPortfolioBundle/Controller/"
-    type:     annotation
-    prefix:   /
+# JSON API
+claroline_portfolio_bundle_api:
+    resource: "@ClarolinePortfolioBundle/Controller/API/"
+    prefix: apiv2
+    type: api
+    options:
+        expose: true
