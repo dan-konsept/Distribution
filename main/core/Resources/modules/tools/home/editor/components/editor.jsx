@@ -167,7 +167,8 @@ const Editor = connect(
         type: administration ? 'administration' : context.type,
         administration: administration,
         user: context.type === 'desktop' && !administration ? currentUser() : null,
-        workspace: context.type === 'workspace' ? {uuid: context.data.uuid} : null
+        workspace: context.type === 'workspace' ? {uuid: context.data.uuid} : null,
+        contextId: context.data && context.data.id ? context.data.id : null
       })))
 
       // open new tab

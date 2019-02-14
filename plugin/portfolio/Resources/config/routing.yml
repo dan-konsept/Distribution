@@ -5,3 +5,10 @@ claroline_portfolio_bundle_api:
     type: api
     options:
         expose: true
+
+claroline_portfolio_bundle:
+    resource: "@ClarolinePortfolioBundle/Controller/"
+    prefix: /
+    type: annotation
+    options:
+        expose: true

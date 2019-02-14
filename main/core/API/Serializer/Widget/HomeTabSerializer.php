@@ -144,6 +144,7 @@ class HomeTabSerializer
         }
 
         $this->sipe('id', 'setUuid', $data, $homeTab);
+        $this->sipe('contextId', 'setContextId', $data, $homeTab);
         $this->sipe('title', 'setName', $data, $homeTabConfig);
         $this->sipe('longTitle', 'setLongTitle', $data, $homeTabConfig);
         $this->sipe('centerTitle', 'setCenterTitle', $data, $homeTabConfig);

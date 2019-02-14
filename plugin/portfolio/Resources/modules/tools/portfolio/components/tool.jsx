@@ -14,7 +14,6 @@ import {constants} from '#/plugin/portfolio/tools/portfolio/constants'
 import {actions} from '#/plugin/portfolio/tools/portfolio/store'
 import {Portfolios} from '#/plugin/portfolio/tools/portfolio/components/portfolios'
 import {Portfolio} from '#/plugin/portfolio/tools/portfolio/components/portfolio'
-import {PortfolioForm} from '#/plugin/portfolio/tools/portfolio/components/portfolio-form'
 
 const authenticatedUser = currentUser()
 
@@ -38,13 +37,8 @@ const Tool = (props) =>
           component: Portfolios,
           exact: true
         }, {
-          path: '/portfolios/:id',
-          component: Portfolio,
-          onEnter: (params) => props.openForm(params.id),
-          onLeave: () => props.resetForm()
-        }, {
           path: '/portfolio/:id?',
-          component: PortfolioForm,
+          component: Portfolio,
           onEnter: (params) => props.openForm(params.id),
           onLeave: () => props.resetForm()
         }

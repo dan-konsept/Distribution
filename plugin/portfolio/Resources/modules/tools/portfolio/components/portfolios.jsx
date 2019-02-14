@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {trans} from '#/main/app/intl/translation'
-import {LINK_BUTTON} from '#/main/app/buttons'
+import {LINK_BUTTON, URL_BUTTON} from '#/main/app/buttons'
 import {ListData} from '#/main/app/content/list/containers/data'
 import {DataCard} from '#/main/app/content/card/components/data'
 
@@ -15,8 +15,8 @@ const Portfolios = () =>
       autoload: true
     }}
     primaryAction={(row) => ({
-      type: LINK_BUTTON,
-      target: `/portfolios/${row.id}`
+      type: URL_BUTTON,
+      target: ['claro_portfolio_open', {id: row.id}]
     })}
     actions={(rows) => [
       {
@@ -39,7 +39,7 @@ const Portfolios = () =>
         displayed: true
       }, {
         name: 'meta.slug',
-        label: trans('slug'),
+        label: trans('slug', {}, 'portfolio'),
         type: 'string',
         displayed: true
       }, {
@@ -48,7 +48,7 @@ const Portfolios = () =>
         type: 'string',
         displayed: true,
         filterable: false,
-        calculated: (rowData) => trans(rowData.meta.visibility, {}, 'portfolio')
+        calculated: (rowData) => constants.VISIBILITIES[rowData.meta.visibility]
       }, {
         name: 'visibility',
         label: trans('visibility', {}, 'portfolio'),
@@ -68,7 +68,7 @@ const Portfolios = () =>
         icon='fa fa-list-alt'
         title={row.data.title}
         subtitle={row.data.meta.slug}
-        contentText={trans(row.meta.visibility, {}, 'portfolio')}
+        contentText={trans(row.data.meta.visibility, {}, 'portfolio')}
       />
     }
   />

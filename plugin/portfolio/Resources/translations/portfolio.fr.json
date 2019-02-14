@@ -1,5 +1,7 @@
 {
     "add_a_portfolio": "Ajouter un portfolio",
+    "portfolio": "Portfolio",
+    "slug": "Slug",
     "visibile_to_me": "Moi seulement",
     "visibility": "Visibilité",
     "visible_for_everybody": "Tout le monde",

@@ -1,7 +1,8 @@
 {
   "webpack": {
     "entry": {
-      "tool": "tools/portfolio/bootstrap"
+      "tool": "tools/portfolio/bootstrap",
+      "portfolio": "portfolio/bootstrap"
     }
   }
 }

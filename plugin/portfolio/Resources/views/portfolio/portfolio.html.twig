@@ -1,0 +1,39 @@
+{% extends 'ClarolineCoreBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" type="text/css" href="{{ themeAsset('claroline-distribution-main-core-home-tool.css') }}" />
+{% endblock %}
+
+{% block title %}{{ 'portfolio' | trans({}, 'portfolio') | striptags | raw }}{% endblock %}
+
+{% import 'ClarolineCoreBundle::macros.html.twig' as macros %}
+
+{% block breadcrumb %}
+    {{
+        macros.breadcrumbs([
+            {
+                'name': 'portfolio' | trans({}, 'portfolio'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
+{% block content %}
+    <div
+        class="page-container portfolio-container"
+        data-editable="{{ editable }}"
+        data-administration="{{ administration }}"
+        data-current-context="{{ context | json_encode | raw | escape }}"
+        data-tabs="{{ tabs | json_encode | raw | escape }}"
+    >
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ hotAsset('claroline-distribution-plugin-portfolio-portfolio.js') }}"></script>
+{% endblock %}
