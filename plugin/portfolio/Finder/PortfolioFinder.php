@@ -67,7 +67,7 @@ class PortfolioFinder extends AbstractFinder
                         $qb->join('obj.owner', 'o');
                         $ownerJoin = true;
                     }
-                    $qb->andWhere('o.firstName LIKE :firstName');
+                    $qb->andWhere('UPPER(o.firstName) LIKE :firstName');
                     $qb->setParameter('firstName', '%'.strtoupper($filterValue).'%');
                     break;
                 case 'owner.lastName':
@@ -75,8 +75,12 @@ class PortfolioFinder extends AbstractFinder
                         $qb->join('obj.owner', 'o');
                         $ownerJoin = true;
                     }
-                    $qb->andWhere('o.lastName LIKE :lastName');
+                    $qb->andWhere('UPPER(o.lastName) LIKE :lastName');
                     $qb->setParameter('lastName', '%'.strtoupper($filterValue).'%');
+                    break;
+                case 'meta.slug':
+                    $qb->andWhere('UPPER(obj.slug) LIKE :slug');
+                    $qb->setParameter('slug', '%'.strtoupper($filterValue).'%');
                     break;
                 default:
                     if (is_bool($filterValue)) {
@@ -93,6 +97,12 @@ class PortfolioFinder extends AbstractFinder
             $sortByDirection = 1 === $sortBy['direction'] ? 'ASC' : 'DESC';
 
             switch ($sortByProperty) {
+                case 'meta.slug':
+                    $qb->orderBy('obj.slug', $sortByDirection);
+                    break;
+                case 'meta.visibility':
+                    $qb->orderBy('obj.visibility', $sortByDirection);
+                    break;
                 case 'owner.firstName':
                     if (!$ownerJoin) {
                         $qb->join('obj.owner', 'o');

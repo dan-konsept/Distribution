@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Claroline Connect package.
+ *
+ * (c) Claroline Consortium <consortium@claroline.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Claroline\PortfolioBundle\Migrations\pdo_mysql;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
@@ -8,9 +17,9 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated migration based on mapping information: modify it with caution
  *
- * Generation date: 2019/02/13 02:48:25
+ * Generation date: 2019/02/14 10:17:28
  */
-class Version20190213144824 extends AbstractMigration
+class Version20190214101726 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
@@ -20,7 +29,7 @@ class Version20190213144824 extends AbstractMigration
                 owner_id INT NOT NULL, 
                 title VARCHAR(128) NOT NULL, 
                 slug VARCHAR(128) DEFAULT NULL, 
-                visibility INT NOT NULL, 
+                visibility VARCHAR(255) NOT NULL, 
                 uuid VARCHAR(36) NOT NULL, 
                 UNIQUE INDEX UNIQ_FD7B953E989D9B62 (slug), 
                 UNIQUE INDEX UNIQ_FD7B953ED17F50A6 (uuid), 

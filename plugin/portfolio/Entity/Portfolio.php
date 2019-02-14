@@ -27,14 +27,10 @@ class Portfolio
 {
     use Uuid;
 
-    const VISIBILITY_NOBODY = 0;
-    const VISIBILITY_NOBODY_LABEL = 'visibile_to_me';
-    const VISIBILITY_USER = 1;
-    const VISIBILITY_USER_LABEL = 'visible_for_some_users';
-    const VISIBILITY_PLATFORM_USER = 2;
-    const VISIBILITY_PLATFORM_USER_LABEL = 'visible_for_platform_user';
-    const VISIBILITY_EVERYBODY = 3;
-    const VISIBILITY_EVERYBODY_LABEL = 'visible_for_everybody';
+    const VISIBILITY_ME = 'me';
+    const VISIBILITY_USERS = 'users';
+    const VISIBILITY_PLATFORM_USERS = 'platform_users';
+    const VISIBILITY_EVERYBODY = 'eveybody';
 
     const TAB_TYPE_PORTFOLIO = 'portfolio';
 
@@ -56,9 +52,9 @@ class Portfolio
     protected $slug;
 
     /**
-     * @ORM\Column(type="integer", name="visibility", nullable=false)
+     * @ORM\Column(type="string", name="visibility", nullable=false)
      */
-    protected $visibility = self::VISIBILITY_NOBODY;
+    protected $visibility = self::VISIBILITY_ME;
 
     /**
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\User")
@@ -117,8 +113,6 @@ class Portfolio
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
     }
 
     public function getTitle()
@@ -129,8 +123,6 @@ class Portfolio
     public function setTitle($title)
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getSlug()
@@ -153,25 +145,6 @@ class Portfolio
     public function setVisibility($visibility)
     {
         $this->visibility = $visibility;
-
-        return $this;
-    }
-
-    public static function getVisibilityLabels()
-    {
-        return array(
-            self::VISIBILITY_NOBODY => self::VISIBILITY_NOBODY_LABEL,
-            self::VISIBILITY_USER => self::VISIBILITY_USER_LABEL,
-            self::VISIBILITY_PLATFORM_USER => self::VISIBILITY_PLATFORM_USER_LABEL,
-            self::VISIBILITY_EVERYBODY => self::VISIBILITY_EVERYBODY_LABEL,
-        );
-    }
-
-    public function getVisibilityLabel()
-    {
-        $visibilityLabels = self::getVisibilityLabels();
-
-        return $visibilityLabels[$this->getVisibility()];
     }
 
     public function getOwner()

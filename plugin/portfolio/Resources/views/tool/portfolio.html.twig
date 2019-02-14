@@ -1,0 +1,26 @@
+{% extends 'ClarolineCoreBundle:desktop:layout.html.twig' %}
+
+{% block title %}{{ 'portfolio' | trans({}, 'tools') | striptags | raw }}{% endblock %}
+
+{% import 'ClarolineCoreBundle::macros.html.twig' as macros %}
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'portfolio' | trans({}, 'tools'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
+{% block content %}
+    <div class="page-container portfolio-container">
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ hotAsset('claroline-distribution-plugin-portfolio-tool.js') }}"></script>
+{% endblock %}
