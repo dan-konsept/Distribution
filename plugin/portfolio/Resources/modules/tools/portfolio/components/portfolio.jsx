@@ -43,7 +43,9 @@ const PortfolioComponent = (props) =>
               multiple: false,
               condensed: true,
               choices: constants.VISIBILITIES
-            }
+            },
+            linked: [
+            ]
           }
         ]
       }

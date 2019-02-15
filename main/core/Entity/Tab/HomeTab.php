@@ -73,11 +73,6 @@ class HomeTab
     private $widgetContainers;
 
     /**
-     * @ORM\Column(name="context_id", nullable=true)
-     */
-    private $contextId = null;
-
-    /**
      * HomeTab constructor.
      */
     public function __construct()
@@ -140,15 +135,5 @@ class HomeTab
     public function getHomeTabConfigs()
     {
         return $this->homeTabConfigs;
-    }
-
-    public function getContextId()
-    {
-        return $this->contextId;
-    }
-
-    public function setContextId($contextId)
-    {
-        $this->contextId = $contextId;
     }
 }
