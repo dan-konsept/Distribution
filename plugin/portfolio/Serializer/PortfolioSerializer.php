@@ -15,6 +15,7 @@ use Claroline\AppBundle\API\Options;
 use Claroline\AppBundle\API\Serializer\SerializerTrait;
 use Claroline\AppBundle\API\SerializerProvider;
 use Claroline\AppBundle\Persistence\ObjectManager;
+use Claroline\CoreBundle\Entity\Group;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\PortfolioBundle\Entity\Portfolio;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -30,6 +31,7 @@ class PortfolioSerializer
     /** @var SerializerProvider */
     private $serializer;
 
+    private $groupRepo;
     private $userRepo;
 
     /**
@@ -47,6 +49,7 @@ class PortfolioSerializer
     {
         $this->serializer = $serializer;
 
+        $this->groupRepo = $om->getRepository(Group::class);
         $this->userRepo = $om->getRepository(User::class);
     }
 
@@ -68,6 +71,15 @@ class PortfolioSerializer
             ],
         ];
 
+        if (!in_array(Options::SERIALIZE_MINIMAL, $options)) {
+            $serialized['meta']['users'] = array_map(function (User $user) use ($options) {
+                return $this->serializer->serialize($user, array_merge($options, [Options::SERIALIZE_MINIMAL]));
+            }, $portfolio->getUsers()->toArray());
+            $serialized['meta']['groups'] = array_map(function (Group $group) use ($options) {
+                return $this->serializer->serialize($group, array_merge($options, [Options::SERIALIZE_MINIMAL]));
+            }, $portfolio->getGroups()->toArray());
+        }
+
         return $serialized;
     }
 
@@ -87,6 +99,27 @@ class PortfolioSerializer
         if (isset($data['meta']['owner']['id']) && !$portfolio->getOwner()) {
             $owner = $this->userRepo->findOneBy(['uuid' => $data['meta']['owner']['id']]);
             $portfolio->setOwner($owner);
+        }
+        $portfolio->emptyUsers();
+        $portfolio->emptyGroups();
+
+        if (isset($data['meta']['users'])) {
+            foreach ($data['meta']['users'] as $userData) {
+                $user = $this->userRepo->findOneBy(['uuid' => $userData['id']]);
+
+                if (!empty($user)) {
+                    $portfolio->addUser($user);
+                }
+            }
+        }
+        if (isset($data['meta']['groups'])) {
+            foreach ($data['meta']['groups'] as $groupData) {
+                $group = $this->groupRepo->findOneBy(['uuid' => $groupData['id']]);
+
+                if (!empty($group)) {
+                    $portfolio->addGroup($group);
+                }
+            }
         }
 
         return $portfolio;

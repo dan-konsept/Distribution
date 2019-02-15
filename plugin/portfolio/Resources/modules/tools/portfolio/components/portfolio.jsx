@@ -45,6 +45,17 @@ const PortfolioComponent = (props) =>
               choices: constants.VISIBILITIES
             },
             linked: [
+              {
+                name: 'meta.users',
+                type: 'users',
+                label: trans('users'),
+                displayed: (data) => data.meta && constants.VISIBILITY_USERS === data.meta.visibility
+              }, {
+                name: 'meta.groups',
+                type: 'groups',
+                label: trans('groups'),
+                displayed: (data) => data.meta && constants.VISIBILITY_USERS === data.meta.visibility
+              }
             ]
           }
         ]
