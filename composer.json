@@ -20,7 +20,12 @@
         "ext-pdo_mysql": "*",
         "symfony/symfony": "4.0.*",
         "composer/composer": "*",
-        "besimple/sso-auth-bundle": "*"
+        "doctrine/data-fixtures": "*",
+        "doctrine/dbal": "*",
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/migrations": "*",
+        "doctrine/orm": "*"
+        
     },
     "replace": {
         "claroline/distribution-bundle": "*",
