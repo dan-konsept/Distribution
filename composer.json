@@ -30,6 +30,11 @@
         "natxet/cssmin": "*",
         "postal/postal": "*",
         "psr/log": "*",
+        "meyfa/php-svg": "*",
+        "mrclay/minify": "*",
+        "natxet/cssmin": "*",
+        "postal/postal": "*",
+        "psr/log": "*",
         "ramsey/uuid": "*"
         
     },
