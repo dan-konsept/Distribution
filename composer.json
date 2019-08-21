@@ -18,7 +18,15 @@
         "ext-intl": "*",
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
-        "symfony/symfony": "~4.1"
+        "symfony/symfony": "~4.3"
+        "besimple/sso-auth-bundle": "*",
+        "cocur/slugify": "*",
+        "composer/composer": "*",
+        "doctrine/data-fixtures": "*",
+        "doctrine/dbal": "*",
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/migrations": "*",
+        "doctrine/orm": "*"
     },
     "replace": {
         "claroline/distribution-bundle": "*",
