@@ -19,13 +19,8 @@
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
         "symfony/symfony": "4.0.*",
-        "cocur/slugify": "*",
-        "composer/composer": "*",
-        "doctrine/data-fixtures": "*",
-        "doctrine/dbal": "*",
-        "doctrine/doctrine-bundle": "*",
-        "doctrine/migrations": "*",
-        "doctrine/orm": "*"
+        "composer/composer": "*"
+
     },
     "replace": {
         "claroline/distribution-bundle": "*",
