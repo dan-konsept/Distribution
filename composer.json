@@ -24,7 +24,13 @@
         "doctrine/dbal": "*",
         "doctrine/doctrine-bundle": "*",
         "doctrine/migrations": "*",
-        "doctrine/orm": "*"
+        "doctrine/orm": "*",
+        "meyfa/php-svg": "*",
+        "mrclay/minify": "*",
+        "natxet/cssmin": "*",
+        "postal/postal": "*",
+        "psr/log": "*",
+        "ramsey/uuid": "*"
         
     },
     "replace": {
