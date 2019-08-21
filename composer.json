@@ -19,7 +19,8 @@
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
         "symfony/symfony": "4.0.*",
-        "composer/composer": "*"
+        "composer/composer": "*",
+        "besimple/sso-auth-bundle": "*"
     },
     "replace": {
         "claroline/distribution-bundle": "*",
