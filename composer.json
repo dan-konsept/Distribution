@@ -18,8 +18,8 @@
         "ext-intl": "*",
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
-        "symfony/symfony": "4.0.*"
-
+        "symfony/symfony": "4.0.*",
+        "composer/composer": "*"
     },
     "replace": {
         "claroline/distribution-bundle": "*",
