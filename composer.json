@@ -54,8 +54,10 @@
         "jdorn/sql-formatter": "*",
         "jms/di-extra-bundle": "*",
         "jms/serializer-bundle": "*",
-        "jdorn/sql-formatter": "*"
-
+        "guzzle/http": "*",
+        "jdorn/sql-formatter": "*",
+        "claroline/json-quiz": "dev-master",
+        "knplabs/knp-snappy-bundle": "*"
         
     },
     "replace": {
