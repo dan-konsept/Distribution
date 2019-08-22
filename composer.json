@@ -53,7 +53,6 @@
         "icap/html-diff": "*",
         "jdorn/sql-formatter": "*",
         "jms/di-extra-bundle": "*",
-        "jms/security-extra-bundle": "*",
         "jms/serializer-bundle": "*",
         "jdorn/sql-formatter": "*"
 
