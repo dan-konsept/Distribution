@@ -52,8 +52,6 @@
         "hwi/oauth-bundle": "*",
         "icap/html-diff": "*",
         "jdorn/sql-formatter": "*",
-        "jms/di-extra-bundle": "*",
-        "jms/serializer-bundle": "*",
         "guzzle/http": "*",
         "jdorn/sql-formatter": "*",
         "claroline/json-quiz": "dev-master",
