@@ -37,10 +37,10 @@
         "psr/log": "*", 
         "cocur/slugify": "*",
         "ramsey/uuid": "*",
-        "sensio/distribution-bundle": "*",
         "stefk/jval": "dev-master",
         "stof/doctrine-extensions-bundle": "*",
         "symfony/assetic-bundle": "*",
+        "sensio/framework-extra-bundle": "*",
         "symfony/monolog-bundle": "*"
 
         
