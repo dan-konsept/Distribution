@@ -39,12 +39,17 @@
         "ramsey/uuid": "*",
         "stefk/jval": "dev-master",
         "stof/doctrine-extensions-bundle": "*",
-                "symfony/swiftmailer-bundle": "*",
+        "symfony/swiftmailer-bundle": "*",
         "twig/extensions": "*",
         "twig/twig": "*",
         "u01jmg3/ics-parser": "*",
         "willdurand/js-translation-bundle": "*",
-        "symfony/monolog-bundle": "*"
+        "symfony/monolog-bundle": "*",
+        "gedmo/doctrine-extensions": "*",
+        "guzzle/http": "*",
+        "hwi/oauth-bundle": "*",
+        "icap/html-diff": "*",
+        "jdorn/sql-formatter": "*"
 
         
     },
