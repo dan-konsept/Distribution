@@ -34,15 +34,16 @@
         "mrclay/minify": "*",
         "natxet/cssmin": "*",
         "postal/postal": "*",
-        "psr/log": "*",
-                
+        "psr/log": "*", 
         "cocur/slugify": "*",
-        "doctrine/data-fixtures": "*",
-        "doctrine/dbal": "*",
-        "doctrine/doctrine-bundle": "*",
-        "doctrine/migrations": "*",
-        "doctrine/orm": "*",
-        "ramsey/uuid": "*"
+        "ramsey/uuid": "*",
+                "sensio/distribution-bundle": "*",
+        "sensio/framework-extra-bundle": "*",
+        "stefk/jval": "dev-master",
+        "stof/doctrine-extensions-bundle": "*",
+        "symfony/assetic-bundle": "*",
+        "symfony/monolog-bundle": "*"
+
         
     },
     "replace": {
