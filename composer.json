@@ -56,7 +56,6 @@
         "friendsofsymfony/jsrouting-bundle": "*",
         "jdorn/sql-formatter": "*",
         "claroline/json-quiz": "dev-master",
-        "jms/di-extra-bundle": "*",
         "knplabs/knp-snappy-bundle": "*"
         
     },
