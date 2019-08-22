@@ -53,6 +53,7 @@
         "icap/html-diff": "*",
         "jdorn/sql-formatter": "*",
         "guzzle/http": "*",
+        "friendsofsymfony/jsrouting-bundle": "*",
         "jdorn/sql-formatter": "*",
         "claroline/json-quiz": "dev-master",
         "knplabs/knp-snappy-bundle": "*"
