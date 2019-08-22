@@ -35,6 +35,13 @@
         "natxet/cssmin": "*",
         "postal/postal": "*",
         "psr/log": "*",
+                
+        "cocur/slugify": "*",
+        "doctrine/data-fixtures": "*",
+        "doctrine/dbal": "*",
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/migrations": "*",
+        "doctrine/orm": "*",
         "ramsey/uuid": "*"
         
     },
