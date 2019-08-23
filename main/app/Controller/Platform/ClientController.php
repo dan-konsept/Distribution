@@ -12,7 +12,6 @@ use Claroline\CoreBundle\Event\Layout\InjectStylesheetEvent;
 use Claroline\CoreBundle\Library\Configuration\PlatformConfigurationHandler;
 use Claroline\CoreBundle\Library\Maintenance\MaintenanceHandler;
 use Claroline\CoreBundle\Manager\ToolManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -40,16 +39,6 @@ class ClientController
     private $toolManager;
 
     /**
-     * ClientController constructor.
-     *
-     * @DI\InjectParams({
-     *     "tokenStorage"  = @DI\Inject("security.token_storage"),
-     *     "dispatcher"    = @DI\Inject("claroline.event.event_dispatcher"),
-     *     "configHandler" = @DI\Inject("claroline.config.platform_config_handler"),
-     *     "finder"        = @DI\Inject("claroline.api.finder"),
-     *     "toolManager"   = @DI\Inject("claroline.manager.tool_manager")
-     * })
-     *
      * @param TokenStorageInterface        $tokenStorage
      * @param StrictDispatcher             $dispatcher
      * @param PlatformConfigurationHandler $configHandler

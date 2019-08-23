@@ -12,7 +12,6 @@ use Claroline\CoreBundle\Library\Configuration\PlatformConfigurationHandler;
 use Claroline\CoreBundle\Library\Configuration\PlatformDefaults;
 use Claroline\CoreBundle\Manager\ConnectionMessageManager;
 use Claroline\CoreBundle\Manager\UserManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,17 +38,6 @@ class SecurityController
     private $messageManager;
 
     /**
-     * SecurityController constructor.
-     *
-     * @DI\InjectParams({
-     *     "tokenStorage"    = @DI\Inject("security.token_storage"),
-     *     "config"          = @DI\Inject("claroline.config.platform_config_handler"),
-     *     "eventDispatcher" = @DI\Inject("claroline.event.event_dispatcher"),
-     *     "serializer"      = @DI\Inject("claroline.api.serializer"),
-     *     "manager"         = @DI\Inject("claroline.manager.user_manager"),
-     *     "messageManager"  = @DI\Inject("claroline.manager.connection_message_manager")
-     * })
-     *
      * @param TokenStorageInterface        $tokenStorage
      * @param PlatformConfigurationHandler $config
      * @param StrictDispatcher             $eventDispatcher

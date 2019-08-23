@@ -1,0 +1,10 @@
+# This file contains only services that cannot be defined using annotations.
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Claroline\AppBundle\Controller\Platform\:
+         resource: '../../Controller/Platform/*'
