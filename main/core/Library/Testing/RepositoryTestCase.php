@@ -31,6 +31,7 @@ use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Claroline\CoreBundle\Entity\Workspace\WorkspaceTag;
 use Claroline\MessageBundle\Entity\Message;
 use Claroline\MessageBundle\Entity\UserMessage;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Gedmo\Timestampable\TimestampableListener;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -62,6 +63,7 @@ abstract class RepositoryTestCase extends WebTestCase
 
     public function tearDown(): void
     {
+        AnnotationRegistry::reset();
         //we don't want to tear down between each tests because we lose the container otherwise
         //and can't shut down everything properly afterwards
     }

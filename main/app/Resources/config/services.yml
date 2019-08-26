@@ -1,11 +1,11 @@
 # This file contains only services that cannot be defined using annotations.
-
+#
 services:
     _defaults:
         autowire: true
-        autoconfigure: true
+        # autoconfigure: true
         #it looks like it's required to have public: true
         public: true
 
-    Claroline\AppBundle\Controller\Platform\:
-         resource: '../../Controller/Platform/*'
+    Claroline\AppBundle\Controller\Platform\ClientController: ~
+         #resource: '../../Controller/Platform/*'

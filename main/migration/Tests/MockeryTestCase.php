@@ -11,6 +11,7 @@
 
 namespace Claroline\MigrationBundle\Tests;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
@@ -24,6 +25,7 @@ abstract class MockeryTestCase extends TestCase
 
     protected function tearDown(): void
     {
+        AnnotationRegistry::reset();
         m::close();
     }
 }

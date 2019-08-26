@@ -11,6 +11,7 @@
 
 namespace Claroline\CoreBundle\Library\Testing;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Mockery as m;
 use Mockery\Mock;
 
@@ -33,6 +34,8 @@ abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
      */
     protected function tearDown(): void
     {
+        // We need to keep the registry clean ourselves until we update to doctrine/annotations 1.5.0
+        AnnotationRegistry::reset();
         m::close();
     }
 

@@ -12,6 +12,7 @@
 namespace Claroline\CoreBundle\Library\Testing;
 
 use Claroline\CoreBundle\Entity\User;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
@@ -32,6 +33,7 @@ abstract class TransactionalTestCase extends WebTestCase
 
     protected function tearDown(): void
     {
+        AnnotationRegistry::reset();
         // we can't simply do "$client->shutdown()" because sometimes
         // when an integration test fails (e.g. due to an error in the
         // container configuration) the $client property is set to null
