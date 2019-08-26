@@ -4,7 +4,8 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: false
+        #it looks like it's required to have public: true
+        public: true
 
     Claroline\AppBundle\Controller\Platform\:
          resource: '../../Controller/Platform/*'
