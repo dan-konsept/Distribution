@@ -12,7 +12,6 @@
 namespace Claroline\CoreBundle\Manager;
 
 use Claroline\CoreBundle\Entity\Resource\MaskDecoder;
-use Claroline\CoreBundle\Entity\Resource\MenuAction;
 use Claroline\CoreBundle\Entity\Resource\ResourceType;
 use Claroline\CoreBundle\Library\Testing\MockeryTestCase;
 
@@ -23,7 +22,7 @@ class MaskManagerTest extends MockeryTestCase
     private $menuRepo;
     private $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

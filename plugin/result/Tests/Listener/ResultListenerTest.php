@@ -28,7 +28,7 @@ class ResultListenerTest extends TransactionalTestCase
     /** @var Persister */
     private $persist;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $container = $this->client->getContainer();

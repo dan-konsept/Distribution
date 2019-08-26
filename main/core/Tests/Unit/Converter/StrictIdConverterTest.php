@@ -21,7 +21,7 @@ class StrictIdConverterTest extends MockeryTestCase
     private $em;
     private $converter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = $this->mock('Symfony\Component\HttpFoundation\Request');
         $this->configuration = $this->mock('Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter');
@@ -43,7 +43,7 @@ class StrictIdConverterTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException       Claroline\CoreBundle\Converter\InvalidConfigurationException
+     * @expectedException       \Claroline\CoreBundle\Converter\InvalidConfigurationException
      * @expectedExceptionCode   1
      */
     public function testApplyThrowsAnExceptionIfTheNameParameterIsMissing()
@@ -53,7 +53,7 @@ class StrictIdConverterTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException       Claroline\CoreBundle\Converter\InvalidConfigurationException
+     * @expectedException       \Claroline\CoreBundle\Converter\InvalidConfigurationException
      * @expectedExceptionCode   2
      */
     public function testApplyThrowsAnExceptionIfTheClassParameterIsMissing()
@@ -64,7 +64,7 @@ class StrictIdConverterTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException       Claroline\CoreBundle\Converter\InvalidConfigurationException
+     * @expectedException       \Claroline\CoreBundle\Converter\InvalidConfigurationException
      * @expectedExceptionCode   3
      */
     public function testApplyThrowsAnExceptionIfTheIdOptionIsMissing()
@@ -96,7 +96,7 @@ class StrictIdConverterTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function testApplyThrowsAnExceptionIfTheIdAttributeIsNullAndTheParameterIsNotOptional()
     {
@@ -110,7 +110,7 @@ class StrictIdConverterTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function testApplyThrowsAnExceptionIfTheEntityCannotBeFound()
     {

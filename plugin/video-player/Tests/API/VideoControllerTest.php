@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class VideoControllerTest extends TransactionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->persister = $this->client->getContainer()->get('claroline.library.testing.persister');

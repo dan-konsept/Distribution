@@ -11,10 +11,10 @@
 
 namespace Claroline\MigrationBundle\Generator;
 
-use Mockery as m;
-use org\bovigo\vfs\vfsStream;
 use Claroline\MigrationBundle\Tests\MockeryTestCase;
 use Claroline\MigrationBundle\Twig\SqlFormatterExtension;
+use Mockery as m;
+use org\bovigo\vfs\vfsStream;
 
 class WriterTest extends MockeryTestCase
 {
@@ -22,7 +22,7 @@ class WriterTest extends MockeryTestCase
     private $twigEngine;
     private $fileSystem;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->twigEnvironment = m::mock('Twig_Environment');

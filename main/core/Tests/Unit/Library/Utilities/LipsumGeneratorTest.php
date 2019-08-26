@@ -17,7 +17,7 @@ class LipsumGeneratorTest extends MockeryTestCase
 {
     private $lipsumGenerator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

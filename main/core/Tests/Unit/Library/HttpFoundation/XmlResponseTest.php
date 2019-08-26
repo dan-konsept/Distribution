@@ -17,7 +17,7 @@ class XmlResponseTest extends MockeryTestCase
 {
     private $encoder;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

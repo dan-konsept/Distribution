@@ -24,7 +24,7 @@ class MarkRepositoryTest extends TransactionalTestCase
     /** @var MarkRepository */
     private $repo;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->om = $this->client->getContainer()->get('claroline.persistence.object_manager');

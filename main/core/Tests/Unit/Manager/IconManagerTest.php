@@ -25,7 +25,7 @@ class IconManagerTest extends MockeryTestCase
     private $ut;
     private $om;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->thumbnailCreator = $this->mock('Claroline\CoreBundle\Library\Utilities\ThumbnailCreator');

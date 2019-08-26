@@ -22,7 +22,7 @@ class ResultRepositoryTest extends TransactionalTestCase
     /** @var Persister */
     private $persist;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->om = $this->client->getContainer()->get('claroline.persistence.object_manager');

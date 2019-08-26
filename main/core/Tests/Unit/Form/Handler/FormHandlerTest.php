@@ -10,7 +10,7 @@ class FormHandlerTest extends UnitTestCase
     private $factory;
     private $handler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = $this->mock('Symfony\Component\Form\FormFactoryInterface');
         $this->handler = new FormHandler($this->factory);

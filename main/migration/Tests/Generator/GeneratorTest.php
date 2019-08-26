@@ -11,8 +11,8 @@
 
 namespace Claroline\MigrationBundle\Generator;
 
-use Mockery as m;
 use Claroline\MigrationBundle\Tests\MockeryTestCase;
+use Mockery as m;
 
 class GeneratorTest extends MockeryTestCase
 {
@@ -24,7 +24,7 @@ class GeneratorTest extends MockeryTestCase
     private $entityAMetadata;
     private $entityBMetadata;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->em = m::mock('Doctrine\ORM\EntityManager');

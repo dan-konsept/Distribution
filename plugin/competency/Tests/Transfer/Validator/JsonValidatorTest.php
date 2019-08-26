@@ -8,7 +8,7 @@ class JsonValidatorTest extends UnitTestCase
 {
     private $validator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->validator = new JsonValidator();
     }

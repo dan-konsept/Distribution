@@ -11,8 +11,8 @@
 
 namespace Claroline\CoreBundle\Library\Security\Voter;
 
-use Claroline\CoreBundle\Library\Testing\MockeryTestCase;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
+use Claroline\CoreBundle\Library\Testing\MockeryTestCase;
 
 class WorkspaceVoterTest extends MockeryTestCase
 {
@@ -21,7 +21,7 @@ class WorkspaceVoterTest extends MockeryTestCase
     private $translator;
     private $voter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -152,7 +152,7 @@ class WorkspaceVoterTest extends MockeryTestCase
         $this->ut = $this->mock("Claroline\CoreBundle\Library\Security\Utilities");
         $this->translator = $this->mock("Symfony\Component\Translation\Translator");
 
-        if (count($mockedMethods) === 0) {
+        if (0 === count($mockedMethods)) {
             return new WorkspaceVoter($this->em, $this->translator, $this->ut);
         }
 

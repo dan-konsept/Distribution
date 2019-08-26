@@ -10,7 +10,7 @@ class AdminToolAccessEvaluatorTest extends UnitTestCase
     private $repo;
     private $evaluator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->context = $this->mock('Symfony\Component\Security\Core\SecurityContextInterface');
         $this->repo = $this->mock('Doctrine\ORM\EntityRepository');

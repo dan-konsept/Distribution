@@ -11,10 +11,10 @@
 
 namespace Claroline\MigrationBundle\Manager;
 
-use Mockery as m;
-use Claroline\MigrationBundle\Tests\MockeryTestCase;
 use Claroline\MigrationBundle\Generator\Generator;
 use Claroline\MigrationBundle\Migrator\Migrator;
+use Claroline\MigrationBundle\Tests\MockeryTestCase;
+use Mockery as m;
 
 class ManagerTest extends MockeryTestCase
 {
@@ -23,7 +23,7 @@ class ManagerTest extends MockeryTestCase
     private $migrator;
     private $manager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->writer = m::mock('Claroline\MigrationBundle\Generator\Writer');
