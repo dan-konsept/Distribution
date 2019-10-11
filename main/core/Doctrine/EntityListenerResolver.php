@@ -25,7 +25,7 @@ class EntityListenerResolver extends DefaultEntityListenerResolver
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->mapping = array();
+        $this->mapping = [];
     }
 
     public function addMapping($className, $service)
