@@ -11,22 +11,18 @@
 
 namespace Claroline\CoreBundle\Library\Session;
 
-use PDO;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
-use JMS\DiExtraBundle\Annotation as DI;
+use PDO;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
-/**
- * @DI\Service("claroline.session.database_validator")
- */
 class DatabaseSessionValidator
 {
     public function validate(array $parameters)
     {
         $errors = array();
 
-        if ($parameters['session_storage_type'] === 'pdo') {
+        if ('pdo' === $parameters['session_storage_type']) {
             $dsn = $parameters['session_db_dsn'];
             $username = $parameters['session_db_user'];
             $password = $parameters['session_db_password'];
@@ -36,7 +32,7 @@ class DatabaseSessionValidator
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $errors = $this->validateSchema($pdo, $parameters);
 
-                if (count($errors) === 0) {
+                if (0 === count($errors)) {
                     $errors = $this->testOperations($pdo, $parameters);
                 }
             } catch (\PDOException $e) {

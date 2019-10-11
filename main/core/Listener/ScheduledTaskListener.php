@@ -15,7 +15,6 @@ use Claroline\CoreBundle\Entity\Task\ScheduledTask;
 use Claroline\CoreBundle\Event\GenericDataEvent;
 use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\Task\ScheduledTaskManager;
-use JMS\DiExtraBundle\Annotation as DI;
 
 class ScheduledTaskListener
 {
@@ -37,8 +36,6 @@ class ScheduledTaskListener
     }
 
     /**
-     * @DI\Observe("claroline_scheduled_task_execute_email")
-     *
      * @param GenericDataEvent $event
      */
     public function onExecuteMailTask(GenericDataEvent $event)

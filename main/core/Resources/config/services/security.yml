@@ -16,3 +16,8 @@ services:
           - method: inject
             arguments:
                 - '@Claroline\AppBundle\Persistence\ObjectManager'
+
+    Claroline\CoreBundle\Library\Security\TokenUpdater:
+        arguments:
+            - '@security.token_storage'
+            - '@Claroline\AppBundle\Persistence\ObjectManager'
