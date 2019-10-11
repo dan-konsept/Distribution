@@ -36,7 +36,7 @@ services:
     # (see Claroline\CoreBundle\DependencyInjection\Compiler\DynamicConfigPass
     claroline.session.storage_options:
         class: stdClass
-        factory: ["@Claroline\CoreBundle\Library\Session\SessionStorageOptionsFactory", getOptions]
+        factory: ['@Claroline\CoreBundle\Library\Session\SessionStorageOptionsFactory', 'getOptions']
 
     #notification listeners
     claroline.listener.core.notification_listener:
