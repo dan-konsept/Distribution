@@ -309,3 +309,12 @@ services:
         arguments:
             - '@security.encoder_factory'
         tags: ['doctrine.entity_listener']
+
+    Claroline\CoreBundle\Listener\Doctrine\DebugListener:
+        public: true
+        tags:
+            - { name: doctrine.event_listener, event: onFLush }
+
+    Claroline\CoreBundle\Doctrine\EntityListenerResolver:
+        arguments:
+            - '@service_container'

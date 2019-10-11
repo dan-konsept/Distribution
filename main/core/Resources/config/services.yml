@@ -17,7 +17,9 @@ imports:
     - { resource: services/converter.yml }
 
 services:
-
+    Claroline\CoreBundle\Listener\AuthenticationFailureHandler:
+        parent: security.authentication.failure_handler
+        
     Claroline\CoreBundle\Routing\ClaroRouter:
         parent: router.default
 

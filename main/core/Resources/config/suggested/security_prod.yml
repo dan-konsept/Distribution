@@ -29,7 +29,7 @@ security:
             json_login:
                 check_path: /login
                 success_handler: Claroline\CoreBundle\Listener\AuthenticationSuccessListener
-                failure_handler: claroline.security.authentication.failure_handler
+                failure_handler: Claroline\CoreBundle\Listener\AuthenticationFailureHandler
 
     access_decision_manager:
         allow_if_all_abstain: false

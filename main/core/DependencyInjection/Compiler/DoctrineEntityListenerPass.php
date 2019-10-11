@@ -22,10 +22,10 @@ class DoctrineEntityListenerPass implements CompilerPassInterface
         $config = $container->getDefinition('doctrine.orm.default_configuration');
         $config->addMethodCall(
             'setEntityListenerResolver',
-            array(new Reference('claroline.doctrine.entity_listener_resolver'))
+            array(new Reference('Claroline\CoreBundle\Doctrine\EntityListenerResolver'))
         );
 
-        $definition = $container->getDefinition('claroline.doctrine.entity_listener_resolver');
+        $definition = $container->getDefinition('Claroline\CoreBundle\Doctrine\EntityListenerResolver');
         $services = $container->findTaggedServiceIds('doctrine.entity_listener');
 
         foreach ($services as $service => $attributes) {

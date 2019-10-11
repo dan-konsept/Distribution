@@ -21,3 +21,9 @@ services:
         arguments:
             - '@security.token_storage'
             - '@Claroline\AppBundle\Persistence\ObjectManager'
+
+    Claroline\CoreBundle\Library\Security\Authenticator:
+        arguments:
+            - '@Claroline\AppBundle\Persistence\ObjectManager'
+            - '@security.token_storage'
+            - '@security.encoder_factory'
