@@ -48,7 +48,7 @@ class DatabaseSessionValidator
         $dbal = DriverManager::getConnection(['pdo' => $connection]);
         $schema = $dbal->getSchemaManager();
 
-        if (!$schema->tablesExist(array($parameters['session_db_table']))) {
+        if (!$schema->tablesExist([$parameters['session_db_table']])) {
             return ['session_db_no_table'];
         }
 

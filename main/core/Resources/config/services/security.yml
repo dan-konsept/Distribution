@@ -2,7 +2,7 @@ services:
     _defaults:
         autowire: true #change to true
         autoconfigure: true #change to true
-        public: false #default should be false now
+        public: true #default should be false now
 
     Claroline\CoreBundle\Security\Authentication\IpAuthenticator:
         calls:
@@ -27,3 +27,10 @@ services:
             - '@Claroline\AppBundle\Persistence\ObjectManager'
             - '@security.token_storage'
             - '@security.encoder_factory'
+
+    Claroline\CoreBundle\Library\Security\Evaluator\AdminToolAccessEvaluator:
+        arguments:
+            - '@security.authorization_checker'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: security.expressions.function_evaluator, function: canOpenAdminTool }
