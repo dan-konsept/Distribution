@@ -39,13 +39,13 @@ class TranslationManager
     private function recursiveFill($mainTranslations, $translations)
     {
         if (!is_array($translations)) {
-            $translations = array();
+            $translations = [];
         }
 
         //this should be recursive
         foreach (array_keys($mainTranslations) as $requiredKey) {
             if (!array_key_exists($requiredKey, $translations)) {
-                $translations[$requiredKey] = array();
+                $translations[$requiredKey] = [];
                 $translations[$requiredKey] = is_array($mainTranslations[$requiredKey]) ?
                     $this->recursiveFill($mainTranslations[$requiredKey], $translations[$requiredKey]) :
                     $requiredKey;

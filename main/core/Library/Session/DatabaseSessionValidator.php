@@ -20,7 +20,7 @@ class DatabaseSessionValidator
 {
     public function validate(array $parameters)
     {
-        $errors = array();
+        $errors = [];
 
         if ('pdo' === $parameters['session_storage_type']) {
             $dsn = $parameters['session_db_dsn'];
@@ -45,20 +45,20 @@ class DatabaseSessionValidator
 
     private function validateSchema(PDO $connection, array $parameters)
     {
-        $dbal = DriverManager::getConnection(array('pdo' => $connection));
+        $dbal = DriverManager::getConnection(['pdo' => $connection]);
         $schema = $dbal->getSchemaManager();
 
         if (!$schema->tablesExist(array($parameters['session_db_table']))) {
-            return array('session_db_no_table');
+            return ['session_db_no_table'];
         }
 
         $table = $schema->listTableDetails($parameters['session_db_table']);
-        $expectedColumns = array(
+        $expectedColumns = [
             'id_col' => Type::STRING,
             'data_col' => Type::TEXT,
             'time_col' => Type::INTEGER,
-        );
-        $errors = array();
+        ];
+        $errors = [];
 
         foreach ($expectedColumns as $column => $type) {
             if (!$table->hasColumn($name = $parameters['session_db_'.$column])) {
@@ -71,7 +71,7 @@ class DatabaseSessionValidator
             }
         }
 
-        if (!$table->hasPrimaryKey() || $table->getPrimaryKeyColumns() !== array($parameters['session_db_id_col'])) {
+        if (!$table->hasPrimaryKey() || $table->getPrimaryKeyColumns() !== [$parameters['session_db_id_col']]) {
             $errors[] = 'session_db_id_col_must_be_pk';
         }
 
@@ -80,13 +80,13 @@ class DatabaseSessionValidator
 
     private function testOperations(PDO $connection, array $parameters)
     {
-        $options = array(
+        $options = [
             'db_table' => $parameters['session_db_table'],
             'db_id_col' => $parameters['session_db_id_col'],
             'db_data_col' => $parameters['session_db_data_col'],
             'db_time_col' => $parameters['session_db_time_col'],
-        );
-        $errors = array();
+        ];
+        $errors = [];
         $handler = new PdoSessionHandler($connection, $options);
         $connection->beginTransaction();
 
