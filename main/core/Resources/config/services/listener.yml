@@ -304,5 +304,3 @@ services:
             - '@Claroline\AppBundle\API\SerializerProvider'
             - '@claroline.manager.user_manager'
             - '@claroline.manager.connection_message_manager'
-        tags:
-            - { name: kernel.event_listener, event: console.command, method: onAuthenticationSuccess, priority: 17 }
