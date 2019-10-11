@@ -13,7 +13,6 @@ namespace Claroline\CoreBundle\Converter;
 
 use Claroline\AppBundle\Persistence\MissingObjectException;
 use Claroline\AppBundle\Persistence\ObjectManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +20,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @DI\Service()
- * @DI\Tag("request.param_converter", attributes={"priority" = 500})
- *
  * Retreives a set of entities from an array of ids passed in the query string
  * (e.g.: "?ids[]=1&ids[]=2") and adds it to the request attributes.
  */
@@ -31,11 +27,6 @@ class MultipleIdsConverter implements ParamConverterInterface
 {
     private $om;
 
-    /**
-     * @DI\InjectParams({
-     *     "om" = @DI\Inject("Claroline\AppBundle\Persistence\ObjectManager")
-     * })
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;

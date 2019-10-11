@@ -304,3 +304,8 @@ services:
             - '@Claroline\AppBundle\API\SerializerProvider'
             - '@claroline.manager.user_manager'
             - '@claroline.manager.connection_message_manager'
+
+    Claroline\CoreBundle\Listener\Entity\UserListener:
+        arguments:
+            - '@security.encoder_factory'
+        tags: ['doctrine.entity_listener']

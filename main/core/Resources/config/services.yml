@@ -14,6 +14,7 @@ imports:
     - { resource: services/listener.yml }
     - { resource: services/library.yml }
     - { resource: services/security.yml }
+    - { resource: services/converter.yml }
 
 services:
 

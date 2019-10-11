@@ -1,0 +1,30 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: true #because lazy
+
+    Claroline\CoreBundle\Converter\AuthenticatedUserConverter:
+        arguments:
+            - '@security.token_storage'
+            - '@translator'
+        tags:
+            - { name: request.param_converter, priority: 500 }
+
+    Claroline\CoreBundle\Converter\CurrentUserConverter:
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: request.param_converter, converter: current_user }
+
+    Claroline\CoreBundle\Converter\MultipleIdsConverter:
+        arguments:
+            - '@Claroline\AppBundle\Persistence\ObjectManager'
+        tags:
+            - { name: request.param_converter, priority: 500 }
+
+    Claroline\CoreBundle\Converter\StrictIdConverter:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: request.param_converter, priority: 500, converter: strict_id }

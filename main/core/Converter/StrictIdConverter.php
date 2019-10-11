@@ -12,16 +12,12 @@
 namespace Claroline\CoreBundle\Converter;
 
 use Doctrine\ORM\EntityManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @DI\Service("claroline.converter.strict_id_converter")
- * @DI\Tag("request.param_converter", attributes={"priority" = -500, "converter" = "strict_id"})
- *
  * Retreives an entity by its id (no further guessing) and adds it to the request
  * attributes. The matching between the entity id and the request id attribute
  * must be explicit.
@@ -30,11 +26,6 @@ class StrictIdConverter implements ParamConverterInterface
 {
     private $em;
 
-    /**
-     * @DI\InjectParams({
-     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
-     */
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
