@@ -11,14 +11,10 @@
 
 namespace Claroline\DevBundle\Manager;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use Claroline\BundleRecorder\Log\LoggableTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @DI\Service("claroline.dev_manager.translation_manager")
- */
 class TranslationManager
 {
     use LoggableTrait;

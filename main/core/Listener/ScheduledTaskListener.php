@@ -17,9 +17,6 @@ use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\Task\ScheduledTaskManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
-/**
- * @DI\Service()
- */
 class ScheduledTaskListener
 {
     private $mailManager;
@@ -27,11 +24,6 @@ class ScheduledTaskListener
 
     /**
      * ScheduledTaskListener constructor.
-     *
-     * @DI\InjectParams({
-     *     "mailManager" = @DI\Inject("claroline.manager.mail_manager"),
-     *     "taskManager" = @DI\Inject("claroline.manager.scheduled_task_manager"),
-     * })
      *
      * @param MailManager          $mailManager
      * @param ScheduledTaskManager $taskManager

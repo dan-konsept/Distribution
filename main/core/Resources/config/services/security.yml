@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true #change to true
+        autoconfigure: true #change to true
+        public: false #default should be false now
+
+    Claroline\CoreBundle\Security\Authentication\IpAuthenticator:
+        calls:
+          - method: inject
+            arguments:
+                - '@Claroline\CoreBundle\Library\Configuration\PlatformConfigurationHandler'
+                - '@claroline.manager.ip_white_list_manager'
+
+    Claroline\CoreBundle\Security\Authentication\ApiTokenAuthenticator:
+        calls:
+          - method: inject
+            arguments:
+                - '@Claroline\AppBundle\Persistence\ObjectManager'
