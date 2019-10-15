@@ -46,7 +46,7 @@ abstract class SecurityController
 
         if (!$granted) {
             throw new AccessDeniedException(
-                sprintf('Operation "%s" cannot be done on %s', $open, $toolName)
+                sprintf('%s cannot be opened', $toolName)
             );
         }
     }
