@@ -39,7 +39,7 @@
         "stefk/jval": "*",
         "stof/doctrine-extensions-bundle": "*",
         "symfony/monolog-bundle": "*",
-        "symfony/symfony": "4.0",
+        "symfony/symfony": "~4.2",
         "symfony/swiftmailer-bundle": "*",
         "twig/twig": "*",
         "u01jmg3/ics-parser": "*",
