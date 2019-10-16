@@ -29,6 +29,7 @@
         "hwi/oauth-bundle": "*",
         "icap/html-diff": "*",
         "php-http/httplug-bundle": "*",
+        "php-http/guzzle6-adapter":"^1.1",
         "jdorn/sql-formatter": "*",
         "claroline/json-quiz": "dev-master",
         "meyfa/php-svg": "*",
