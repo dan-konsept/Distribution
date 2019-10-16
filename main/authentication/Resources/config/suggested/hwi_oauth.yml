@@ -69,6 +69,8 @@ hwi_oauth:
 #    hwi_oauth.user.provider:
 #        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
 
+#this part is commented for sf4 upgrade because it crashed everything
+
 security:
     firewalls:
         main:
@@ -92,4 +94,3 @@ security:
                 login_path: /login
                 failure_path: /login
                 use_forward: false
-
