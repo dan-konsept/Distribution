@@ -68,6 +68,7 @@ services:
           - '@claroline.manager.resource_action'
           - '@claroline.manager.resource_manager'
           - '@claroline.manager.rights_manager'
+          - '@claroline.manager.log_connect'
 
     Claroline\CoreBundle\Controller\APINew\Template\TemplateController:
         arguments:
@@ -90,6 +91,7 @@ services:
     Claroline\CoreBundle\Controller\APINew\Tool\ToolController:
         arguments:
           - '@claroline.manager.tool_manager'
+          - '@claroline.manager.log_connect'
 
     Claroline\CoreBundle\Controller\APINew\User\GroupController: ~
 
@@ -152,6 +154,7 @@ services:
           - '@claroline.manager.workspace.transfer'
           - '@claroline.manager.temp_file'
           - '%claroline.param.workspace_log_dir%'
+          - '@claroline.manager.log_connect'
 
     Claroline\CoreBundle\Controller\APINew\ConnectionMessageController:
         arguments:
@@ -164,10 +167,6 @@ services:
           - '@claroline.manager.data_source'
 
     Claroline\CoreBundle\Controller\APINew\FileController: ~
-
-    Claroline\CoreBundle\Controller\APINew\LocaleController:
-        arguments:
-          - '@claroline.manager.locale_manager'
 
     Claroline\CoreBundle\Controller\APINew\LoggerController:
         arguments:
@@ -183,6 +182,7 @@ services:
         arguments:
           - '@Claroline\CoreBundle\Library\Configuration\PlatformConfigurationHandler'
           - '@claroline.manager.analytics_manager'
+          - '@Claroline\CoreBundle\Manager\VersionManager'
           - '@Claroline\CoreBundle\API\Serializer\ParametersSerializer'
 
     Claroline\CoreBundle\Controller\APINew\ScheduledTaskController: ~

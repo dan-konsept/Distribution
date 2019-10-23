@@ -11,7 +11,7 @@ class AbilityRepositoryTest extends RepositoryTestCase
 {
     private $repo;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = $this->om->getRepository('HeVinciCompetencyBundle:Ability');
@@ -289,7 +289,7 @@ class AbilityRepositoryTest extends RepositoryTestCase
         $workspace->setCreator($user);
 
         $type = $this->om->getRepository('ClarolineCoreBundle:Resource\ResourceType')
-            ->findOneByName('activity');
+            ->findOneByName('text');
 
         $node = new ResourceNode();
         $node->setName($name);
