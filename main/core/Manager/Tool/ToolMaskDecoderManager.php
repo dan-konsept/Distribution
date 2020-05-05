@@ -9,30 +9,35 @@
  * file that was distributed with this source code.
  */
 
-namespace Claroline\CoreBundle\Manager;
+namespace Claroline\CoreBundle\Manager\Tool;
 
 use Claroline\AppBundle\Persistence\ObjectManager;
 use Claroline\CoreBundle\Entity\Tool\Tool;
 use Claroline\CoreBundle\Entity\Tool\ToolMaskDecoder;
+use Claroline\CoreBundle\Repository\Tool\ToolMaskDecoderRepository;
 
 class ToolMaskDecoderManager
 {
-    private $maskRepo;
+    /** @var ObjectManager */
     private $om;
+    /** @var ToolMaskDecoderRepository */
+    private $maskRepo;
 
     /**
-     * Constructor.
+     * ToolMaskDecoderManager constructor.
+     *
+     * @param ObjectManager $om
      */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
-        $this->maskRepo = $om->getRepository('ClarolineCoreBundle:Tool\ToolMaskDecoder');
+        $this->maskRepo = $om->getRepository(ToolMaskDecoder::class);
     }
 
     /**
      * Create a mask decoder with default actions for a tool.
      *
-     * @param \Claroline\CoreBundle\Entity\Tool\Tool $tool
+     * @param Tool $tool
      */
     public function createDefaultToolMaskDecoders(Tool $tool)
     {
@@ -45,12 +50,7 @@ class ToolMaskDecoderManager
                 $maskDecoder->setTool($tool);
                 $maskDecoder->setName($action);
                 $maskDecoder->setValue(ToolMaskDecoder::$defaultValues[$action]);
-                $maskDecoder->setGrantedIconClass(
-                    ToolMaskDecoder::$defaultGrantedIconClass[$action]
-                );
-                $maskDecoder->setDeniedIconClass(
-                    ToolMaskDecoder::$defaultDeniedIconClass[$action]
-                );
+
                 $this->om->persist($maskDecoder);
             }
         }
@@ -60,21 +60,17 @@ class ToolMaskDecoderManager
     /**
      * Create a specific mask decoder for a tool.
      *
-     * @param \Claroline\CoreBundle\Entity\Tool\Tool $tool
+     * @param Tool   $tool
+     * @param string $action
+     * @param int    $value
      */
-    public function createToolMaskDecoder(
-        Tool $tool,
-        $action,
-        $value,
-        $grantedIconClass,
-        $deniedIconClass
-    ) {
+    public function createToolMaskDecoder(Tool $tool, $action, $value)
+    {
         $maskDecoder = new ToolMaskDecoder();
         $maskDecoder->setTool($tool);
         $maskDecoder->setName($action);
         $maskDecoder->setValue($value);
-        $maskDecoder->setGrantedIconClass($grantedIconClass);
-        $maskDecoder->setDeniedIconClass($deniedIconClass);
+
         $this->om->persist($maskDecoder);
         $this->om->flush();
     }
@@ -82,8 +78,8 @@ class ToolMaskDecoderManager
     /**
      * Returns an array containing the permission for a mask and a tool.
      *
-     * @param int                                    $mask
-     * @param \Claroline\CoreBundle\Entity\Tool\Tool $tool
+     * @param int  $mask
+     * @param Tool $tool
      *
      * @return array
      */
@@ -114,35 +110,19 @@ class ToolMaskDecoderManager
         return $perms;
     }
 
-    /***** ToolRightsRepository access methods *****/
-
     public function getMaskDecodersByTool(Tool $tool, $executeQuery = true)
     {
         return $this->maskRepo->findMaskDecodersByTool($tool, $executeQuery);
     }
 
     /**
-     * @param bool $executeQuery
-     *
-     * @return ToolMaskDecoder[]
-     */
-    public function getAllMaskDecoders($executeQuery = true)
-    {
-        return $this->maskRepo->findAllMaskDecoders($executeQuery);
-    }
-
-    /**
-     * @param Tool $tool
-     * @param $name
-     * @param bool $executeQuery
+     * @param Tool   $tool
+     * @param string $name
+     * @param bool   $executeQuery
      *
      * @return ToolMaskDecoder
      */
-    public function getMaskDecoderByToolAndName(
-        Tool $tool,
-        $name,
-        $executeQuery = true
-    ) {
+    public function getMaskDecoderByToolAndName(Tool $tool, $name, $executeQuery = true) {
         return $this->maskRepo->findMaskDecoderByToolAndName(
             $tool,
             $name,

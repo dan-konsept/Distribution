@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
- * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\OrderedToolRepository")
+ * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\Tool\OrderedToolRepository")
  * @ORM\Table(
  *     name="claro_ordered_tool",
  *     uniqueConstraints={

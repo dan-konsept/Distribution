@@ -73,11 +73,4 @@ services:
 
     Claroline\CoreBundle\Security\Voter\UserVoter: ~
 
-    Claroline\CoreBundle\Security\Voter\WidgetVoter:
-        tags: [security.voter]
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@translator'
-            - '@claroline.manager.workspace_manager'
-
     Claroline\CoreBundle\Security\Voter\WorkspaceVoter: ~

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Claroline\CoreBundle\Repository;
+namespace Claroline\CoreBundle\Repository\Tool;
 
 use Claroline\CoreBundle\Entity\Tool\AdminTool;
 use Claroline\CoreBundle\Manager\PluginManager;
@@ -18,6 +18,9 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class AdministrationToolRepository extends ServiceEntityRepository
 {
+    /** @var array */
+    private $bundles;
+
     public function __construct(RegistryInterface $registry, PluginManager $manager)
     {
         $this->bundles = $manager->getEnabled(true);

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Claroline\CoreBundle\Repository;
+namespace Claroline\CoreBundle\Repository\Tool;
 
 use Claroline\CoreBundle\Entity\Tool\Tool;
 use Claroline\CoreBundle\Entity\Tool\ToolMaskDecoder;
@@ -16,6 +16,12 @@ use Doctrine\ORM\EntityRepository;
 
 class ToolMaskDecoderRepository extends EntityRepository
 {
+    /**
+     * @param Tool $tool
+     * @param bool $executeQuery
+     *
+     * @return \Doctrine\ORM\Query|ToolMaskDecoder[]
+     */
     public function findMaskDecodersByTool(Tool $tool, $executeQuery = true)
     {
         $dql = '
@@ -30,23 +36,8 @@ class ToolMaskDecoderRepository extends EntityRepository
         return $executeQuery ? $query->getResult() : $query;
     }
 
-    public function findAllMaskDecoders($executeQuery = true)
+    public function findMaskDecoderByToolAndName(Tool $tool, $name, $executeQuery = true)
     {
-        $dql = '
-            SELECT tmd
-            FROM Claroline\CoreBundle\Entity\Tool\ToolMaskDecoder tmd
-            ORDER BY tmd.value ASC
-        ';
-        $query = $this->_em->createQuery($dql);
-
-        return $executeQuery ? $query->getResult() : $query;
-    }
-
-    public function findMaskDecoderByToolAndName(
-        Tool $tool,
-        $name,
-        $executeQuery = true
-    ) {
         $dql = '
             SELECT tmd
             FROM Claroline\CoreBundle\Entity\Tool\ToolMaskDecoder tmd

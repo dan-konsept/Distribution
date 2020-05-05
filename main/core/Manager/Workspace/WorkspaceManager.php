@@ -11,6 +11,7 @@
 
 namespace Claroline\CoreBundle\Manager\Workspace;
 
+use Claroline\AppBundle\API\Crud;
 use Claroline\AppBundle\API\Options;
 use Claroline\AppBundle\API\Utils\FileBag;
 use Claroline\AppBundle\Event\StrictDispatcher;
@@ -57,6 +58,8 @@ class WorkspaceManager
     /** @var ObjectManager */
     private $om;
     private $sut;
+    /** @var Crud */
+    private $crud;
     private $container;
     /** @var array */
     private $importData;
@@ -238,32 +241,6 @@ class WorkspaceManager
 
             foreach ($openWsIds as $idRow) {
                 $accesses[$idRow['id']] = true;
-            }
-        }
-
-        //remove accesses if workspace is personal and right was not given
-
-        foreach ($workspaces as $workspace) {
-            if ($workspace->isPersonal() && $toolName) {
-                $pwc = $this->container->get('claroline.manager.tool_manager')
-                    ->getPersonalWorkspaceToolConfigs();
-                $canOpen = false;
-
-                foreach ($pwc as $conf) {
-                    if (!$toolName) {
-                        $toolName = 'home';
-                    }
-
-                    if ($conf->getTool()->getName() === $toolName &&
-                        in_array($conf->getRole()->getName(), $workspace->getCreator()->getRoles()) &&
-                        ($conf->getMask() & 1)) {
-                        $canOpen = true;
-                    }
-                }
-
-                if (!$canOpen) {
-                    $accesses[$workspace->getId()] = false;
-                }
             }
         }
 
@@ -456,12 +433,16 @@ class WorkspaceManager
         }
 
         if (!$this->isImpersonated($token)) {
-            if ($workspace->getCreator() === $token->getUser()) {
+            /** @var User $user */
+            $user = $token->getUser();
+
+            // we are the creator of the workspace
+            if ($workspace->getCreator() === $user) {
                 return true;
             }
 
             //if we're amongst the administrators of the organizations
-            $adminOrganizations = $token->getUser()->getAdministratedOrganizations();
+            $adminOrganizations = $user->getAdministratedOrganizations();
             $workspaceOrganizations = $workspace->getOrganizations();
 
             foreach ($adminOrganizations as $adminOrganization) {

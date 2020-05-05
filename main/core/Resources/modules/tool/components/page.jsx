@@ -38,7 +38,7 @@ ToolPage.propTypes = {
   subtitle: T.node,
   toolbar: T.string,
   actions: T.any,
-  path: T.arrayOf(T.object), // TODO : correct typing
+  path: T.arrayOf(T.object),
   children: T.any
 }
 

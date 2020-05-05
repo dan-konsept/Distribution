@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Claroline\CoreBundle\Repository;
+namespace Claroline\CoreBundle\Repository\Tool;
 
 use Claroline\CoreBundle\Entity\Tool\OrderedTool;
 use Claroline\CoreBundle\Entity\Tool\Tool;
@@ -21,6 +21,9 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class OrderedToolRepository extends ServiceEntityRepository
 {
+    /** @var array */
+    private $bundles;
+
     public function __construct(RegistryInterface $registry, PluginManager $manager)
     {
         $this->bundles = $manager->getEnabled(true);
@@ -60,32 +63,32 @@ class OrderedToolRepository extends ServiceEntityRepository
     ) {
         if (0 === count($roles)) {
             return [];
-        } else {
-            $dql = '
-                SELECT ot
-                FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot
-                JOIN ot.tool t
-                LEFT JOIN t.plugin p
-                JOIN ot.rights r
-                JOIN r.role rr
-                WHERE ot.workspace = :workspace
-                AND ot.type = :type
-                AND rr.name IN (:roleNames)
-                AND BIT_AND(r.mask, 1) = 1
-                AND (
-                    CONCAT(p.vendorName, p.bundleName) IN (:bundles)
-                    OR t.plugin is NULL
-                )
-                ORDER BY ot.order
-            ';
-            $query = $this->_em->createQuery($dql);
-            $query->setParameter('workspace', $workspace);
-            $query->setParameter('roleNames', $roles);
-            $query->setParameter('type', $type);
-            $query->setParameter('bundles', $this->bundles);
-
-            return $query->getResult();
         }
+
+        $dql = '
+            SELECT ot
+            FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot
+            JOIN ot.tool t
+            LEFT JOIN t.plugin p
+            JOIN ot.rights r
+            JOIN r.role rr
+            WHERE ot.workspace = :workspace
+            AND ot.type = :type
+            AND rr.name IN (:roleNames)
+            AND BIT_AND(r.mask, 1) = 1
+            AND (
+                CONCAT(p.vendorName, p.bundleName) IN (:bundles)
+                OR t.plugin is NULL
+            )
+            ORDER BY ot.order
+        ';
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('workspace', $workspace);
+        $query->setParameter('roleNames', $roles);
+        $query->setParameter('type', $type);
+        $query->setParameter('bundles', $this->bundles);
+
+        return $query->getResult();
     }
 
     public function incWorkspaceOrderedToolOrderForRange(
@@ -134,65 +137,6 @@ class OrderedToolRepository extends ServiceEntityRepository
         $query->setParameter('type', $type);
 
         return $executeQuery ? $query->execute() : $query;
-    }
-
-    public function findPersonalDisplayableByWorkspaceAndRoles(
-        Workspace $workspace,
-        array $roles,
-        $type = 0
-    ) {
-        $dql = 'SELECT ot
-            FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot
-            JOIN ot.tool t
-            JOIN ot.rights r
-            JOIN r.role rr
-            JOIN t.pwsToolConfig ptc
-            LEFT JOIN t.plugin p
-            WHERE ot.workspace = :workspace
-            AND ot.type = :type
-            AND rr.name IN (:roleNames)
-            AND BIT_AND(r.mask, 1) = 1
-            AND BIT_AND(ptc.mask, 1) = 1
-            AND (
-                CONCAT(p.vendorName, p.bundleName) IN (:bundles)
-                OR t.plugin is NULL
-            )
-            ORDER BY ot.order
-        ';
-
-        $query = $this->_em->createQuery($dql);
-        $query->setParameter('roleNames', $roles);
-        $query->setParameter('workspace', $workspace);
-        $query->setParameter('type', $type);
-        $query->setParameter('bundles', $this->bundles);
-
-        return $query->getResult();
-    }
-
-    public function findPersonalDisplayable(Workspace $workspace, $type = 0)
-    {
-        $dql = 'SELECT ot
-            FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot
-            JOIN ot.tool t
-            JOIN t.pwsToolConfig ptc
-            JOIN ot.workspace workspace
-            LEFT JOIN t.plugin p
-            WHERE BIT_AND(ptc.mask, 1) = 1
-            AND workspace.id = :workspaceId
-            AND ot.type = :type
-            AND (
-                CONCAT(p.vendorName, p.bundleName) IN (:bundles)
-                OR t.plugin is NULL
-            )
-            ORDER BY ot.order
-        ';
-
-        $query = $this->_em->createQuery($dql);
-        $query->setParameter('workspaceId', $workspace->getId());
-        $query->setParameter('type', $type);
-        $query->setParameter('bundles', $this->bundles);
-
-        return $query->getResult();
     }
 
     /**
@@ -380,12 +324,14 @@ class OrderedToolRepository extends ServiceEntityRepository
 
     /**
      * Returns the ordered tools locked by admin.
+
+     * @param int $orderedToolType
      *
-     * @return array[OrderedTool]
+     * @return OrderedTool[]
      */
     public function findOrderedToolsLockedByAdmin($orderedToolType = 0)
     {
-        $dql = "
+        $dql = '
             SELECT ot
             FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot
             JOIN ot.tool t
@@ -400,7 +346,7 @@ class OrderedToolRepository extends ServiceEntityRepository
                 OR t.plugin is NULL
             )
             ORDER BY ot.order
-        ";
+        ';
         $query = $this->_em->createQuery($dql);
         $query->setParameter('type', $orderedToolType);
         $query->setParameter('bundles', $this->bundles);
@@ -410,7 +356,7 @@ class OrderedToolRepository extends ServiceEntityRepository
 
     public function findDuplicatedOldOrderedToolsByUsers()
     {
-        $dql = "
+        $dql = '
             SELECT ot1
             FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot1
             JOIN ot1.tool t
@@ -427,7 +373,7 @@ class OrderedToolRepository extends ServiceEntityRepository
                 OR t.plugin is NULL
             )
             ORDER BY ot1.id
-        ";
+        ';
         $query = $this->_em->createQuery($dql);
         $query->setParameter('bundles', $this->bundles);
 
@@ -436,7 +382,7 @@ class OrderedToolRepository extends ServiceEntityRepository
 
     public function findDuplicatedOldOrderedToolsByWorkspaces()
     {
-        $dql = "
+        $dql = '
             SELECT ot1
             FROM Claroline\CoreBundle\Entity\Tool\OrderedTool ot1
             JOIN ot1.tool t
@@ -453,7 +399,7 @@ class OrderedToolRepository extends ServiceEntityRepository
                 OR t.plugin is NULL
             )
             ORDER BY ot1.id
-        ";
+        ';
 
         $query = $this->_em->createQuery($dql);
         $query->setParameter('bundles', $this->bundles);

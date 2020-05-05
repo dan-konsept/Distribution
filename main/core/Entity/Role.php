@@ -14,7 +14,6 @@ namespace Claroline\CoreBundle\Entity;
 use Claroline\CoreBundle\Entity\Model\UuidTrait;
 use Claroline\CoreBundle\Entity\Resource\ResourceRights;
 use Claroline\CoreBundle\Entity\Tool\AdminTool;
-use Claroline\CoreBundle\Entity\Tool\PwsToolConfig;
 use Claroline\CoreBundle\Entity\Tool\ToolRights;
 use Claroline\CoreBundle\Entity\Workspace\Shortcuts;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
@@ -145,14 +144,6 @@ class Role extends BaseRole
     protected $toolRights;
 
     /**
-     * @ORM\OneToMany(
-     *     targetEntity="Claroline\CoreBundle\Entity\Tool\PwsToolConfig",
-     *     mappedBy="role"
-     * )
-     */
-    protected $pwsToolConfig;
-
-    /**
      * @ORM\Column(name="personal_workspace_creation_enabled", type="boolean")
      *
      * @var bool
@@ -176,8 +167,8 @@ class Role extends BaseRole
 
         $this->users = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->resourceRights = new ArrayCollection();
         $this->toolRights = new ArrayCollection();
-        $this->pwsToolConfig = new ArrayCollection();
         $this->adminTools = new ArrayCollection();
         $this->shortcuts = new ArrayCollection();
     }
@@ -379,16 +370,6 @@ class Role extends BaseRole
     public function getToolRights()
     {
         return $this->toolRights;
-    }
-
-    public function addPwsToolConfig(PwsToolConfig $tr)
-    {
-        $this->pwsToolConfig->add($tr);
-    }
-
-    public function getPwsToolConfig()
-    {
-        return $this->pwsToolConfig;
     }
 
     public function getPersonalWorkspaceCreationEnabled()

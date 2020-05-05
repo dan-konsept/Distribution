@@ -9,23 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Claroline\CoreBundle\Manager;
+namespace Claroline\CoreBundle\Manager\Tool;
 
 use Claroline\AppBundle\Persistence\ObjectManager;
 use Claroline\BundleRecorder\Log\LoggableTrait;
 use Claroline\CoreBundle\Entity\Role;
 use Claroline\CoreBundle\Entity\Tool\AdminTool;
 use Claroline\CoreBundle\Entity\Tool\OrderedTool;
-use Claroline\CoreBundle\Entity\Tool\PwsToolConfig;
 use Claroline\CoreBundle\Entity\Tool\Tool;
 use Claroline\CoreBundle\Entity\Tool\ToolRole;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Claroline\CoreBundle\Exception\ToolPositionAlreadyOccupiedException;
-use Claroline\CoreBundle\Repository\AdministrationToolRepository;
-use Claroline\CoreBundle\Repository\OrderedToolRepository;
+use Claroline\CoreBundle\Manager\RoleManager;
+use Claroline\CoreBundle\Repository\Tool\AdministrationToolRepository;
+use Claroline\CoreBundle\Repository\Tool\OrderedToolRepository;
 use Claroline\CoreBundle\Repository\RoleRepository;
-use Claroline\CoreBundle\Repository\ToolRepository;
+use Claroline\CoreBundle\Repository\Tool\ToolRepository;
 use Claroline\CoreBundle\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -47,7 +47,6 @@ class ToolManager
     private $toolRoleRepo;
     /** @var AdministrationToolRepository */
     private $adminToolRepo;
-    private $pwsToolConfigRepo;
     /** @var ObjectManager */
     private $om;
     /** @var RoleManager */
@@ -85,7 +84,6 @@ class ToolManager
         $this->roleRepo = $om->getRepository(Role::class);
         $this->toolRoleRepo = $om->getRepository(ToolRole::class);
         $this->adminToolRepo = $om->getRepository(AdminTool::class);
-        $this->pwsToolConfigRepo = $om->getRepository(PwsToolConfig::class);
         $this->userRepo = $om->getRepository(User::class);
 
         $this->container = $container;
@@ -374,16 +372,7 @@ class ToolManager
      */
     public function getOrderedToolsByWorkspaceAndRoles(Workspace $workspace, array $roles, $type = 0)
     {
-        if ($workspace->isPersonal()) {
-            $tools = $this->orderedToolRepo->findPersonalDisplayableByWorkspaceAndRoles(
-                $workspace,
-                $roles,
-                $type
-            );
-        } else {
-            $tools = $this->orderedToolRepo->findByWorkspaceAndRoles($workspace, $roles, $type);
-        }
-
+        $tools = $this->orderedToolRepo->findByWorkspaceAndRoles($workspace, $roles, $type);
         if ($workspace->isModel()) {
             $tools = array_filter($tools, function (OrderedTool $orderedTool) {
                 return in_array($orderedTool->getTool()->getName(), static::WORKSPACE_MODEL_TOOLS);
@@ -404,15 +393,10 @@ class ToolManager
         // pre-load associated tools to save some requests
         $this->toolRepo->findDisplayedToolsByWorkspace($workspace, $type);
 
-        // load workspace tools
-        if ($workspace->isPersonal()) {
-            $tools = $this->orderedToolRepo->findPersonalDisplayable($workspace, $type);
-        } else {
-            $tools = $this->orderedToolRepo->findBy(
-                ['workspace' => $workspace, 'type' => $type],
-                ['order' => 'ASC']
-            );
-        }
+        $tools = $this->orderedToolRepo->findBy(
+            ['workspace' => $workspace, 'type' => $type],
+            ['order' => 'ASC']
+        );
 
         if ($workspace->isModel()) {
             $tools = array_filter($tools, function (OrderedTool $orderedTool) {
@@ -505,11 +489,6 @@ class ToolManager
         }
 
         $this->om->flush();
-    }
-
-    public function getPersonalWorkspaceToolConfigs()
-    {
-        return $this->pwsToolConfigRepo->findAll();
     }
 
     /**

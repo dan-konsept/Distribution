@@ -1734,5 +1734,7 @@
     "my_progression": "Ma progression",
     "useful_links": "Liens utiles",
     "contact_information": "Coordonnées",
-    "send_password_help": "Veuillez spécifier l'adresse e-mail rattachée à votre compte afin que nous puissions vous envoyer un nouveau mot de passe."
+    "send_password_help": "Veuillez spécifier l'adresse e-mail rattachée à votre compte afin que nous puissions vous envoyer un nouveau mot de passe.",
+    "active": "Actif",
+    "inactive": "Inactif"
 }

@@ -15,8 +15,8 @@ use Claroline\CoreBundle\Entity\Tool\ToolRights;
 use Claroline\CoreBundle\Entity\Tool\ToolRole;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
-use Claroline\CoreBundle\Repository\OrderedToolRepository;
-use Claroline\CoreBundle\Repository\ToolRightsRepository;
+use Claroline\CoreBundle\Repository\Tool\OrderedToolRepository;
+use Claroline\CoreBundle\Repository\Tool\ToolRightsRepository;
 use Claroline\CoreBundle\Repository\UserRepository;
 
 class RoleSerializer

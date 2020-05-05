@@ -18,7 +18,6 @@ use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Claroline\CoreBundle\Entity\Resource\ResourceRights;
 use Claroline\CoreBundle\Entity\Resource\ResourceType;
 use Claroline\CoreBundle\Entity\Role;
-use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Repository\ResourceNodeRepository;
@@ -28,7 +27,7 @@ use Claroline\CoreBundle\Repository\RoleRepository;
 use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Role\RoleInterface;
+use Symfony\Component\Security\Core\Role\Role as BaseRole;
 
 /**
  * @deprecated use OptimizedRightsManager instead
@@ -306,7 +305,7 @@ class RightsManager
             return false;
         }
 
-        $roleNames = array_map(function (RoleInterface $role) {
+        $roleNames = array_map(function (BaseRole $role) {
             return $role->getRole();
         }, $token->getRoles());
 
@@ -331,12 +330,12 @@ class RightsManager
         return false;
     }
 
-    //maybe use that one in the voter later because it's going to be usefull
+    //maybe use that one in the voter later because it's going to be useful
     public function getCurrentPermissionArray(ResourceNode $resourceNode)
     {
         $currentRoles = $this->tokenStorage->getToken()->getRoles();
 
-        $roleNames = array_map(function (RoleInterface $roleName) {
+        $roleNames = array_map(function (BaseRole $roleName) {
             return $roleName->getRole();
         }, $currentRoles);
 

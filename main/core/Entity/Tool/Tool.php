@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\ToolRepository")
+ * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\Tool\ToolRepository")
  * @ORM\Table(
  *      name="claro_tools",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="tool_plugin_unique",columns={"name", "plugin_id"})}
@@ -107,15 +107,6 @@ class Tool
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="Claroline\CoreBundle\Entity\Tool\PwsToolConfig",
-     *     mappedBy="tool",
-     *     cascade={"remove"}
-     * )
-     */
-    protected $pwsToolConfig;
-
-    /**
-     * @ORM\OneToMany(
      *     targetEntity="Claroline\CoreBundle\Entity\Tool\OrderedTool",
      *     mappedBy="tool",
      *     cascade={"remove"}
@@ -133,7 +124,6 @@ class Tool
         $this->refreshUuid();
 
         $this->maskDecoders = new ArrayCollection();
-        $this->pwsToolConfig = new ArrayCollection();
         $this->orderedTools = new ArrayCollection();
     }
 
@@ -289,16 +279,6 @@ class Tool
     public function getMaskDecoders()
     {
         return $this->maskDecoders;
-    }
-
-    public function addPwsToolConfig(PwsToolConfig $tr)
-    {
-        $this->pwsToolConfig->add($tr);
-    }
-
-    public function getPwsToolConfig()
-    {
-        return $this->pwsToolConfig;
     }
 
     public function getOrderedTools()

@@ -20,7 +20,7 @@ use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Claroline\CoreBundle\Event\Tool\ConfigureToolEvent;
 use Claroline\CoreBundle\Manager\LogConnectManager;
-use Claroline\CoreBundle\Manager\ToolManager;
+use Claroline\CoreBundle\Manager\Tool\ToolManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,27 +81,14 @@ class ToolController extends AbstractApiController
     public function configureAction(Request $request, $name, $context, $contextId = null)
     {
         /** @var Tool|AdminTool $tool */
-        $tool = null;
-        $contextObject = null;
-        switch ($context) {
-            case Tool::ADMINISTRATION:
-                $tool = $this->toolManager->getAdminToolByName($name);
-                break;
-            case Tool::WORKSPACE:
-                $tool = $this->toolManager->getToolByName($name);
-                $contextObject = $this->om->getRepository(Workspace::class)->findOneBy(['uuid' => $contextId]);
-                break;
-            default:
-                $tool = $this->toolManager->getToolByName($name);
-                break;
-        }
-
-        if (!$tool) {
-            throw new NotFoundHttpException(sprintf('Tool "%s" not found', $name));
-        }
-
+        $tool = $this->getTool($name, $context);
         if (!$this->authorization->isGranted('EDIT', $tool)) {
             throw new AccessDeniedException();
+        }
+
+        $contextObject = null;
+        if (Tool::WORKSPACE === $context) {
+            $contextObject = $this->om->getRepository(Workspace::class)->findOneBy(['uuid' => $contextId]);
         }
 
         /** @var ConfigureToolEvent $event */
@@ -110,6 +97,27 @@ class ToolController extends AbstractApiController
         return new JsonResponse(
             $event->getData()
         );
+    }
+
+    /**
+     * @EXT\Route("/rights/{name}/{context}/{contextId}", name="apiv2_tool_get_rights")
+     *
+     * @return JsonResponse
+     */
+    public function getRightsAction()
+    {
+        return new JsonResponse();
+    }
+
+    /**
+     * @EXT\Route("/rights/{name}/{context}/{contextId}", name="apiv2_tool_update_rights")
+     * @EXT\Method("PUT")
+     *
+     * @return JsonResponse
+     */
+    public function updateRightsAction()
+    {
+        return new JsonResponse();
     }
 
     /**
@@ -131,5 +139,27 @@ class ToolController extends AbstractApiController
         }
 
         return new JsonResponse(null, 204);
+    }
+
+    private function getTool($name, $context)
+    {
+        /** @var Tool|AdminTool $tool */
+        $tool = null;
+        $contextObject = null;
+        switch ($context) {
+            case Tool::ADMINISTRATION:
+                $tool = $this->toolManager->getAdminToolByName($name);
+                break;
+            case Tool::WORKSPACE:
+            default:
+                $tool = $this->toolManager->getToolByName($name);
+                break;
+        }
+
+        if (!$tool) {
+            throw new NotFoundHttpException(sprintf('Tool "%s" not found', $name));
+        }
+
+        return $tool;
     }
 }
